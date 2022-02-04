@@ -1,0 +1,17 @@
+[
+    {
+        "firstName": "Michael",
+        "lastName": "Smith",
+        "birthDate": "2000-01-16"
+    },
+    {
+        "firstName": "Andy",
+        "lastName": "Williams",
+        "birthDate": "1996-05-18"
+    },
+    {
+        "firstName": "Justin",
+        "lastName": "Brown",
+        "birthDate": "2001-03-09"
+    }
+]
