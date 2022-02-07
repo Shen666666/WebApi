@@ -29,6 +29,7 @@ namespace Test.Web.Api
         {
             services.AddControllers();
             services.AddScoped<IJsonReader, JsonReader>();
+            services.AddScoped<IJsonWriter, JsonWriter>();
             services.AddScoped<IPersonRepositry, PersonRepository>();
         }
 

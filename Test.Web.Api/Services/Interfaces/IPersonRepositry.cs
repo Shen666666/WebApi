@@ -8,5 +8,7 @@ namespace Test.Web.Api.Services.Interfaces
         Task<List<Person>> GetAll();
 
         Task<Person> GetByName(string firstName, string lastName);
+
+        Task<bool> AddOrSave(Person person);
     }
 }

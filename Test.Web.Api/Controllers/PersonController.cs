@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -32,22 +33,34 @@ namespace Test.Web.Api.Controllers
         }
 
         [HttpGet]
-        public async IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            return await this.personRepositry.GetAll();
+            return Ok(await this.personRepositry.GetAll());
         }
 
         [HttpGet("name")]
-        public async IActionResult GetByName([FromQuery]string firstName, [FromQuery] string lastName)
+        public async Task<IActionResult> GetByName([FromQuery]string firstName, [FromQuery] string lastName)
         {
-             await this.personRepositry.GetByName(firstName, lastName) ?? NotFound();
-            
+            Person person = await this.personRepositry.GetByName(firstName, lastName);
+            if(person == null)
+            {
+                return NoContent();
+            }
+
+            return Ok(person);
         }
 
-        //[HttpPost]
-        //public async Task Add(Person person)
-        //{
+        [HttpPost]
+        public async Task<IActionResult> Add([FromBody]Person person)
+        {
+            if(person == null || string.IsNullOrEmpty(person.FirstName) || string.IsNullOrEmpty(person.LastName))
+            {
+                return BadRequest();
+            }
 
-        //}
+            bool isSaved = await this.personRepositry.AddOrSave(person);
+
+            return Ok(isSaved);
+        }
     }
 }
