@@ -29,6 +29,7 @@ namespace Test.Web.Api
         {
             services.AddControllers();
             services.AddScoped<IJsonReader, JsonReader>();
+            services.AddScoped<IPersonRepositry, PersonRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

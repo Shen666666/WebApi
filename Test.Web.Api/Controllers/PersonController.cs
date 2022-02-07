@@ -19,33 +19,35 @@ namespace Test.Web.Api.Controllers
 
         private readonly IWebHostEnvironment webHostEnvironment;
 
-        private readonly IJsonReader jsonReader;
+        private readonly IPersonRepositry personRepositry;
 
         public PersonController(
             ILogger<PersonController> logger, 
-            IWebHostEnvironment webHostEnvironment, 
-            IJsonReader jsonReader)
+            IWebHostEnvironment webHostEnvironment,
+             IPersonRepositry personRepositry)
         {
             this.logger = logger;
             this.webHostEnvironment = webHostEnvironment;
-            this.jsonReader = jsonReader;
+            this.personRepositry = personRepositry;
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Person>> Get()
+        public async IActionResult Get()
         {
-            string folderPath = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
-            string jsonFilePath = Path.Combine(folderPath, "Resources", "Person.json");
-
-            List<Person> persons = await this.jsonReader.Get<Person>(jsonFilePath);
-
-            return persons;
+            return await this.personRepositry.GetAll();
         }
 
-        [HttpPost]
-        public async Task Add()
+        [HttpGet("name")]
+        public async IActionResult GetByName([FromQuery]string firstName, [FromQuery] string lastName)
         {
-
+             await this.personRepositry.GetByName(firstName, lastName) ?? NotFound();
+            
         }
+
+        //[HttpPost]
+        //public async Task Add(Person person)
+        //{
+
+        //}
     }
 }
